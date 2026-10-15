@@ -19,6 +19,31 @@ let appData = {
     profiles: [],
     shifts: []
 };
+window.getWorkHoursData = function () {
+    return appData;
+};
+window.applyWorkHoursCloudData = function (cloudData) {
+    if (
+        !cloudData ||
+        !Array.isArray(cloudData.profiles) ||
+        !Array.isArray(cloudData.shifts)
+    ) {
+        console.error("Invalid cloud data.");
+        return;
+    }
+
+    appData = {
+        activeProfileId: cloudData.activeProfileId || "",
+        profiles: cloudData.profiles,
+        shifts: cloudData.shifts
+    };
+
+    saveData();
+
+    populateProfileDropdowns();
+    loadProfileSettings();
+    renderAll();
+};
 
 let selectedDate = getTodayKey();
 let editingNewProfile = false;
@@ -571,6 +596,11 @@ function migrateOldData() {
 function saveData() {
     try {
         localStorage.setItem(DATA_KEY, JSON.stringify(appData));
+
+        if (window.workHoursCloudSave) {
+            window.workHoursCloudSave(appData);
+        }
+
         return true;
     } catch (error) {
         console.error("Could not save data:", error);
