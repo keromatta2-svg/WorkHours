@@ -9,6 +9,7 @@
     <title>WorkHours</title>
 
     <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
 </head>
 
 <body>
@@ -667,6 +668,19 @@
 
     <script src="app.js"></script>
     <script type="module" src="firebase.js"></script>
+    <script>
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+        navigator.serviceWorker.register("service-worker.js")
+            .then(function () {
+                console.log("WorkHours service worker registered.");
+            })
+            .catch(function (error) {
+                console.error("Service worker registration failed:", error);
+            });
+    });
+}
+</script>
 
 </body>
 
