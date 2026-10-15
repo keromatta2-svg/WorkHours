@@ -60,9 +60,12 @@ window.loginWithGoogle = async function () {
             return;
         }
 
-        console.error("Google login error:", error);
+       console.error("Google login error:", error);
 
-        alert("فشل تسجيل الدخول. حاول مرة أخرى.");
+alert(
+    "Login error code: " + (error.code || "unknown") +
+    "\nMessage: " + (error.message || "No details")
+);
     }
 };
 
