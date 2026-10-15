@@ -16,8 +16,9 @@
     <div class="app">
 
         <!-- HEADER -->
-
+         
         <header class="header">
+            
 
             <div class="header-top">
 
@@ -65,6 +66,34 @@
             </div>
 
         </header>
+            <!-- HEADER -->
+
+    
+                    <!-- GOOGLE ACCOUNT -->
+
+        <section id="google-account" style="padding: 12px 16px; text-align: center;">
+
+            <p id="google-account-status" style="margin-bottom: 10px;">
+                Not signed in
+            </p>
+
+            <button
+                type="button"
+                id="google-login-button"
+                onclick="loginWithGoogle()">
+                Sign in with Google
+            </button>
+
+            <button
+                type="button"
+                id="google-logout-button"
+                onclick="logoutFromGoogle()"
+                style="display: none;">
+                Sign out
+            </button>
+
+        </section>
+
 
 
         <!-- MAIN VIEW -->
@@ -637,6 +666,7 @@
     <!-- JAVASCRIPT -->
 
     <script src="app.js"></script>
+    <script type="module" src="firebase.js"></script>
 
 </body>
 
