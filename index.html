@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#111827">
+
+    <title>WorkHours</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- HEADER -->
+
+        <header class="header">
+
+            <div class="header-top">
+
+                <div>
+                    <h1>WorkHours</h1>
+                    <button
+                        type="button"
+                        class="date-button"
+                        id="date-button"
+                        onclick="openDatePicker()">
+                        <span id="today">Loading date...</span>
+                        <span class="date-arrow">▼</span>
+                    </button>
+
+                    <input
+                        type="date"
+                        id="shift-date"
+                        class="hidden-date-input"
+                        aria-label="Select work date"
+                        onchange="selectDate()">
+                </div>
+
+                <button
+                    type="button"
+                    class="icon-button"
+                    aria-label="Settings"
+                    title="Settings"
+                    onclick="showView('settings')">
+                    ⚙️
+                </button>
+
+            </div>
+
+            <!-- ACTIVE JOB -->
+
+            <div class="active-job">
+
+                <label for="active-profile">Current Job</label>
+
+                <select
+                    id="active-profile"
+                    onchange="changeProfile()">
+                </select>
+
+            </div>
+
+        </header>
+
+
+        <!-- MAIN VIEW -->
+
+        <main id="main-view" class="view">
+
+            <!-- ADD SHIFT -->
+
+            <section class="card">
+
+                <div class="section-heading">
+                    <div>
+                        <h2>Add a Shift</h2>
+                        <p class="description" id="selected-date-description">
+                            Add a shift for the selected date.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="shift-buttons">
+
+                    <button
+                        type="button"
+                        class="shift-button"
+                        onclick="addQuickShift(7, 13)">
+
+                        5.5 Hours
+                        <span>07:00 – 13:00</span>
+
+                    </button>
+
+                    <button
+                        type="button"
+                        class="shift-button"
+                        onclick="addQuickShift(7, 15)">
+
+                        7.5 Hours
+                        <span>07:00 – 15:00</span>
+
+                    </button>
+
+                    <button
+                        type="button"
+                        class="shift-button"
+                        onclick="addQuickShift(7, 16)">
+
+                        8.5 Hours
+                        <span>07:00 – 16:00</span>
+
+                    </button>
+
+                    <button
+                        type="button"
+                        class="shift-button custom"
+                        onclick="showCustomShift()">
+
+                        Custom Shift
+                        <span>Choose your own time</span>
+
+                    </button>
+
+                </div>
+
+                <!-- CUSTOM SHIFT FORM -->
+
+                <div id="custom-form" hidden>
+
+                    <label for="start-time">Start time</label>
+
+                    <input
+                        type="time"
+                        id="start-time"
+                        value="07:00">
+
+                    <label for="end-time">End time</label>
+
+                    <input
+                        type="time"
+                        id="end-time"
+                        value="15:00">
+
+                    <button
+                        type="button"
+                        class="primary-button"
+                        onclick="addCustomShift()">
+
+                        Add Shift
+
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- SELECTED DATE SUMMARY -->
+
+            <section class="card">
+
+                <h2 id="summary-heading">Selected Day's Summary</h2>
+
+                <div class="summary-row">
+                    <span>Paid working hours</span>
+                    <strong id="hours">0 h</strong>
+                </div>
+
+                <div class="summary-row">
+                    <span>Expected salary</span>
+                    <strong id="salary">0 ₽</strong>
+                </div>
+
+            </section>
+
+
+            <!-- PAY PERIOD SUMMARY -->
+
+            <section class="card">
+
+                <h2>Pay Period Summary</h2>
+
+                <p class="description" id="pay-period-label">
+                    Salary for the current pay period
+                </p>
+
+                <div class="summary-row">
+                    <span>Period</span>
+                    <strong id="period-dates">—</strong>
+                </div>
+
+                <div class="summary-row">
+                    <span>Working days</span>
+                    <strong id="period-days">0</strong>
+                </div>
+
+                <div class="summary-row">
+                    <span>Total hours</span>
+                    <strong id="period-hours">0 h</strong>
+                </div>
+
+                <div class="summary-row">
+                    <span>Expected salary</span>
+                    <strong id="period-salary">0 ₽</strong>
+                </div>
+
+            </section>
+
+
+            <!-- TODAY'S SHIFTS -->
+
+            <section class="card">
+
+                <div class="section-heading">
+
+                    <div>
+                        <h2>Today's Shifts</h2>
+                        <p class="description">
+                            Shifts recorded for today.
+                        </p>
+                    </div>
+
+                </div>
+
+                <div id="today-shift-list">
+
+                    <p class="description">
+                        No shifts added yet.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <!-- HISTORY PREVIEW -->
+
+            <section class="card">
+
+                <div class="section-heading">
+
+                    <div>
+                        <h2>History</h2>
+                        <p class="description">
+                            Your recent working days.
+                        </p>
+                    </div>
+
+                    <button
+                        type="button"
+                        class="text-button"
+                        onclick="showView('history')">
+
+                        View All →
+
+                    </button>
+
+                </div>
+
+                <div id="history-preview">
+
+                    <p class="description">
+                        Your previous shifts will appear here.
+                    </p>
+
+                </div>
+
+            </section>
+
+        </main>
+
+
+        <!-- HISTORY VIEW -->
+
+        <main id="history-view" class="view" hidden>
+
+            <section class="card">
+
+                <div class="section-heading">
+
+                    <div>
+                        <h2>Work History</h2>
+                        <p class="description">
+                            Review your recorded shifts and earnings.
+                        </p>
+                    </div>
+
+                    <button
+                        type="button"
+                        class="text-button"
+                        onclick="showView('main')">
+
+                        ← Home
+
+                    </button>
+
+                </div>
+
+                <!-- HISTORY FILTER -->
+
+                <label for="history-filter">Filter by period</label>
+
+<select id="history-filter" onchange="changeHistoryFilter()">
+
+    <option value="all">All time</option>
+
+    <option value="month">Entire Month</option>
+
+    <option value="year">Entire Year</option>
+
+    <option value="first-half">1–15 of the Month</option>
+
+    <option value="second-half">16–End of the Month</option>
+
+    <option value="custom">Custom Period</option>
+
+</select>
+
+<div id="custom-period-fields" hidden>
+
+    <label for="history-start-date">Start Date</label>
+
+    <input
+        type="date"
+        id="history-start-date"
+        onchange="renderHistory()">
+
+    <label for="history-end-date">End Date</label>
+
+    <input
+        type="date"
+        id="history-end-date"
+        onchange="renderHistory()">
+
+</div>
+
+                <!-- HISTORY TOTALS -->
+
+                <div class="history-totals">
+
+                    <div class="summary-row">
+                        <span>Working days</span>
+                        <strong id="history-days">0</strong>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Total hours</span>
+                        <strong id="history-hours">0 h</strong>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Total salary</span>
+                        <strong id="history-salary">0 ₽</strong>
+                    </div>
+
+                </div>
+
+                <!-- HISTORY LIST -->
+
+                <div id="history-list">
+
+                    <p class="description">
+                        No history available yet.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <!-- EXPORT AND BACKUP -->
+
+            <section class="card">
+
+                <h2>Export & Backup</h2>
+
+                <p class="description">
+                    Export your work records or create a backup
+                    to restore your data later.
+                </p>
+
+                <button
+                    type="button"
+                    class="primary-button"
+                    onclick="exportExcel()">
+
+                    Export to Excel
+
+                </button>
+
+                <button
+                    type="button"
+                    class="secondary-button"
+                    onclick="exportBackup()">
+
+                    Export Backup
+
+                </button>
+
+                <label for="backup-file">
+                    Restore from backup
+                </label>
+
+                <input
+                    type="file"
+                    id="backup-file"
+                    accept=".json,application/json"
+                    onchange="importBackup(event)">
+
+                <p class="description">
+                    Restoring a backup may replace existing records.
+                    Keep a separate backup of your current data.
+                </p>
+
+            </section>
+
+        </main>
+
+
+        <!-- SETTINGS VIEW -->
+
+        <main id="settings-view" class="view" hidden>
+
+            <section class="card">
+
+                <div class="section-heading">
+
+                    <div>
+                        <h2>Settings</h2>
+                        <p class="description">
+                            Manage your jobs and payment settings.
+                        </p>
+                    </div>
+
+                    <button
+                        type="button"
+                        class="text-button"
+                        onclick="showView('main')">
+
+                        ← Home
+
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- JOB PROFILES -->
+
+            <section class="card">
+
+                <h2>Job Profiles</h2>
+
+                <p class="description">
+                    Each job has its own settings, shifts, and history.
+                </p>
+
+                <label for="settings-profile">
+                    Select job to manage
+                </label>
+
+                <select
+                    id="settings-profile"
+                    onchange="selectSettingsProfile()">
+                </select>
+
+                <button
+                    type="button"
+                    class="secondary-button"
+                    onclick="startNewProfile()">
+
+                    + Add New Job
+
+                </button>
+
+            </section>
+
+
+            <!-- JOB DETAILS -->
+
+            <section class="card">
+
+                <h2 id="profile-form-heading">Job Details</h2>
+
+                <label for="profile-name">
+                    Job Title
+                </label>
+
+                <input
+                    type="text"
+                    id="profile-name"
+                    placeholder="e.g. Restaurant Worker">
+
+                <label for="company-name">
+                    Company / Employer
+                </label>
+
+                <input
+                    type="text"
+                    id="company-name"
+                    placeholder="e.g. My Workplace">
+
+                <label for="profile-hourly-rate">
+                    Hourly Rate (₽)
+                </label>
+
+                <input
+                    type="number"
+                    id="profile-hourly-rate"
+                    min="0"
+                    step="0.01"
+                    value="300">
+
+                <label for="profile-break-time">
+                    Break Duration (minutes)
+                </label>
+
+                <input
+                    type="number"
+                    id="profile-break-time"
+                    min="0"
+                    step="1"
+                    value="30">
+
+                <div class="checkbox-row">
+
+                    <input
+                        type="checkbox"
+                        id="profile-break-paid">
+
+                    <label for="profile-break-paid">
+                        Break is paid
+                    </label>
+
+                </div>
+
+                <label for="pay-schedule">
+                    Payment Schedule
+                </label>
+
+                <select
+                    id="pay-schedule">
+
+                    <option value="half-month">
+                        Twice a month (1–15 and 16–end)
+                    </option>
+
+                    <option value="monthly">
+                        Once a month
+                    </option>
+
+                </select>
+
+                <label for="monthly-pay-day">
+                    Monthly Payday
+                </label>
+
+                <input
+                    type="number"
+                    id="monthly-pay-day"
+                    min="1"
+                    max="31"
+                    value="15">
+
+                <button
+                    type="button"
+                    class="primary-button"
+                    onclick="saveJobProfile()">
+
+                    Save Job Settings
+
+                </button>
+
+                <button
+                    type="button"
+                    class="danger-button"
+                    id="delete-profile-button"
+                    onclick="deleteActiveProfile()">
+
+                    Delete This Job
+
+                </button>
+
+            </section>
+
+
+            <!-- GENERAL SETTINGS -->
+
+            <section class="card">
+
+                <h2>Data & Storage</h2>
+
+                <p class="description">
+                    Your records are stored in this browser.
+                    Export a backup regularly to avoid losing data.
+                </p>
+
+                <button
+                    type="button"
+                    class="secondary-button"
+                    onclick="exportBackup()">
+
+                    Export Backup
+
+                </button>
+
+                <label for="settings-backup-file">
+                    Import Backup
+                </label>
+
+                <input
+                    type="file"
+                    id="settings-backup-file"
+                    accept=".json,application/json"
+                    onchange="importBackup(event)">
+
+            </section>
+
+        </main>
+
+
+        <!-- FOOTER -->
+
+        <footer>
+            <p>WorkHours — Simple Work & Salary Tracker</p>
+        </footer>
+
+    </div>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>

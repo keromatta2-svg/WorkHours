@@ -1,0 +1,758 @@
+/* =========================
+   GENERAL
+========================= */
+
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    color-scheme: dark;
+
+    --background: #111827;
+    --card-background: #1f2937;
+    --input-background: #111827;
+
+    --border: #374151;
+    --border-light: #4b5563;
+
+    --text: #f9fafb;
+    --text-secondary: #9ca3af;
+
+    --primary: #2563eb;
+    --primary-hover: #1d4ed8;
+
+    --danger: #991b1b;
+    --danger-hover: #b91c1c;
+
+    --radius: 16px;
+}
+
+body {
+    margin: 0;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    background: var(--background);
+    color: var(--text);
+
+    line-height: 1.5;
+}
+
+button,
+input,
+select {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+    outline: 2px solid #60a5fa;
+    outline-offset: 3px;
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+
+/* =========================
+   APP LAYOUT
+========================= */
+
+.app {
+    width: 100%;
+    max-width: 760px;
+
+    margin: 0 auto;
+    padding: 24px 18px;
+}
+
+.view {
+    width: 100%;
+}
+
+.header {
+    margin-bottom: 26px;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 750;
+    letter-spacing: -0.8px;
+}
+
+.header p {
+    color: var(--text-secondary);
+}
+
+
+/* =========================
+   DATE SELECTOR
+========================= */
+
+.date-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-top: 8px;
+    padding: 5px 0;
+
+    color: var(--text-secondary);
+    background: transparent;
+    border: none;
+
+    font-size: 14px;
+    text-align: left;
+}
+
+.date-button:hover {
+    color: var(--text);
+}
+
+.date-arrow {
+    font-size: 10px;
+    color: var(--text-secondary);
+}
+
+.hidden-date-input {
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    padding: 0;
+    margin: -1px;
+
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+
+    white-space: nowrap;
+    border: 0;
+}
+
+
+/* =========================
+   SETTINGS ICON
+========================= */
+
+.icon-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 44px;
+    height: 44px;
+
+    flex-shrink: 0;
+
+    background: var(--card-background);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+
+    color: var(--text);
+    font-size: 21px;
+
+    transition:
+        background 0.2s,
+        border-color 0.2s;
+}
+
+.icon-button:hover {
+    background: #374151;
+    border-color: var(--border-light);
+}
+
+
+/* =========================
+   ACTIVE JOB
+========================= */
+
+.active-job {
+    margin-top: 22px;
+}
+
+.active-job label {
+    margin-top: 0;
+}
+
+.active-job select {
+    font-weight: 600;
+}
+
+
+/* =========================
+   CARDS
+========================= */
+
+.card {
+    padding: 22px;
+    margin-bottom: 20px;
+
+    background: var(--card-background);
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.card h2 {
+    margin: 0 0 10px;
+
+    font-size: 20px;
+    font-weight: 700;
+
+    letter-spacing: -0.3px;
+}
+
+.description {
+    margin: 6px 0 0;
+
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.section-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 14px;
+    margin-bottom: 12px;
+}
+
+.section-heading h2 {
+    margin-bottom: 4px;
+}
+
+
+/* =========================
+   FORMS
+========================= */
+
+label {
+    display: block;
+
+    margin-top: 18px;
+    margin-bottom: 8px;
+
+    color: #d1d5db;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+input,
+select {
+    display: block;
+
+    width: 100%;
+    min-height: 46px;
+
+    padding: 12px;
+
+    background: var(--input-background);
+    color: var(--text);
+
+    border: 1px solid var(--border-light);
+    border-radius: 10px;
+
+    font-size: 16px;
+}
+
+input::placeholder {
+    color: #6b7280;
+}
+
+input:hover,
+select:hover {
+    border-color: #6b7280;
+}
+
+input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+
+    min-height: 20px;
+
+    margin: 0;
+
+    accent-color: var(--primary);
+}
+
+.checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    margin-top: 18px;
+}
+
+.checkbox-row label {
+    margin: 0;
+    cursor: pointer;
+}
+
+
+/* =========================
+   SHIFT BUTTONS
+========================= */
+
+.shift-buttons {
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.shift-button {
+    min-width: 0;
+
+    padding: 16px 10px;
+
+    background: #374151;
+    color: var(--text);
+
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+
+    font-size: 16px;
+    font-weight: 650;
+
+    transition:
+        background 0.2s,
+        border-color 0.2s,
+        transform 0.2s;
+}
+
+.shift-button:hover {
+    background: #4b5563;
+    border-color: #6b7280;
+}
+
+.shift-button:active {
+    transform: scale(0.98);
+}
+
+.shift-button span {
+    display: block;
+
+    margin-top: 7px;
+
+    color: #d1d5db;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.shift-button.custom {
+    background: #1d4ed8;
+    border-color: #2563eb;
+}
+
+.shift-button.custom:hover {
+    background: #2563eb;
+}
+
+
+/* =========================
+   PRIMARY BUTTON
+========================= */
+
+.primary-button,
+.secondary-button,
+.danger-button {
+    display: block;
+
+    width: 100%;
+    min-height: 46px;
+
+    padding: 12px 16px;
+    margin-top: 16px;
+
+    border-radius: 10px;
+
+    font-size: 15px;
+    font-weight: 650;
+
+    transition:
+        background 0.2s,
+        transform 0.2s;
+}
+
+.primary-button {
+    background: var(--primary);
+    color: white;
+
+    border: 1px solid var(--primary);
+}
+
+.primary-button:hover {
+    background: var(--primary-hover);
+}
+
+.secondary-button {
+    background: #374151;
+    color: var(--text);
+
+    border: 1px solid var(--border-light);
+}
+
+.secondary-button:hover {
+    background: #4b5563;
+}
+
+.danger-button {
+    background: var(--danger);
+    color: white;
+
+    border: 1px solid var(--danger);
+}
+
+.danger-button:hover {
+    background: var(--danger-hover);
+}
+
+.primary-button:active,
+.secondary-button:active,
+.danger-button:active {
+    transform: scale(0.99);
+}
+
+
+/* =========================
+   SMALL TEXT BUTTONS
+========================= */
+
+.text-button {
+    flex-shrink: 0;
+
+    padding: 7px 0;
+
+    background: transparent;
+    border: none;
+
+    color: #60a5fa;
+
+    font-size: 13px;
+    font-weight: 650;
+}
+
+.text-button:hover {
+    color: #93c5fd;
+}
+
+
+/* =========================
+   SUMMARY
+========================= */
+
+.summary-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 14px;
+
+    margin-top: 18px;
+    padding-bottom: 12px;
+
+    border-bottom: 1px solid var(--border);
+
+    font-size: 14px;
+}
+
+.summary-row:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.summary-row span {
+    color: #d1d5db;
+}
+
+.summary-row strong {
+    font-size: 17px;
+    font-weight: 700;
+
+    text-align: right;
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================
+   SHIFT LIST
+========================= */
+
+#today-shift-list,
+#history-preview,
+#history-list {
+    margin-top: 16px;
+}
+
+.shift-item {
+    padding: 16px 0;
+
+    border-bottom: 1px solid var(--border);
+}
+
+.shift-item:first-child {
+    padding-top: 4px;
+}
+
+.shift-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.shift-item strong {
+    display: block;
+    font-size: 16px;
+}
+
+.shift-item p {
+    margin: 6px 0;
+
+    color: #d1d5db;
+    font-size: 14px;
+    overflow-wrap: anywhere;
+}
+
+.delete-button {
+    margin-top: 8px;
+    padding: 8px 12px;
+
+    background: var(--danger);
+    color: white;
+
+    border: none;
+    border-radius: 8px;
+
+    font-size: 13px;
+}
+
+.delete-button:hover {
+    background: var(--danger-hover);
+}
+
+
+/* =========================
+   HISTORY
+========================= */
+
+.history-totals {
+    margin-top: 18px;
+    padding: 14px;
+
+    background: var(--input-background);
+
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+
+.history-totals .summary-row:first-child {
+    margin-top: 0;
+}
+
+.history-day {
+    padding: 16px 0;
+
+    border-bottom: 1px solid var(--border);
+}
+
+.history-day:last-child {
+    border-bottom: none;
+}
+
+.history-day h3 {
+    margin: 0;
+
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.history-day p {
+    margin: 6px 0 0;
+
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.history-day button {
+    margin-top: 10px;
+}
+
+
+/* =========================
+   FILE INPUT
+========================= */
+
+input[type="file"] {
+    padding: 10px;
+
+    color: var(--text-secondary);
+    font-size: 13px;
+}
+
+input[type="file"]::file-selector-button {
+    margin-right: 10px;
+    padding: 8px 10px;
+
+    background: #374151;
+    color: var(--text);
+
+    border: 1px solid var(--border-light);
+    border-radius: 7px;
+
+    cursor: pointer;
+}
+
+
+/* =========================
+   CUSTOM SHIFT FORM
+========================= */
+
+#custom-form {
+    margin-top: 18px;
+    padding-top: 10px;
+
+    border-top: 1px solid var(--border);
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    padding: 16px 0;
+
+    color: var(--text-secondary);
+
+    font-size: 12px;
+    text-align: center;
+}
+
+
+/* =========================
+   TABLET AND MOBILE
+========================= */
+
+@media (max-width: 520px) {
+
+    .app {
+        padding: 20px 12px;
+    }
+
+    .header {
+        margin-bottom: 22px;
+    }
+
+    .header h1 {
+        font-size: 29px;
+    }
+
+    .card {
+        padding: 18px;
+        margin-bottom: 16px;
+
+        border-radius: 14px;
+    }
+
+    .card h2 {
+        font-size: 19px;
+    }
+
+    .shift-buttons {
+        gap: 10px;
+    }
+
+    .shift-button {
+        padding: 14px 8px;
+        font-size: 14px;
+    }
+
+    .shift-button span {
+        font-size: 11px;
+    }
+
+    .summary-row {
+        gap: 10px;
+        font-size: 13px;
+    }
+
+    .summary-row strong {
+        font-size: 16px;
+    }
+
+    .section-heading {
+        gap: 8px;
+    }
+
+    .text-button {
+        font-size: 12px;
+    }
+}
+
+
+/* =========================
+   SMALL PHONES
+========================= */
+
+@media (max-width: 360px) {
+
+    .app {
+        padding: 16px 9px;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    .shift-buttons {
+        grid-template-columns: 1fr;
+    }
+
+    .header h1 {
+        font-size: 27px;
+    }
+
+    .summary-row strong {
+        font-size: 15px;
+    }
+
+}
+#custom-period-fields {
+    margin-top: 12px;
+    padding: 14px;
+
+    background: #111827;
+    border: 1px solid #374151;
+    border-radius: 12px;
+}
+
+#custom-period-fields label:first-child {
+    margin-top: 0;
+}
