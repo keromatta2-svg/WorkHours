@@ -15,6 +15,7 @@ import {
     doc,
     getDoc,
     setDoc,
+    onSnapshot,
     serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
@@ -128,6 +129,7 @@ window.addEventListener("workhours-auth-changed", function (event) {
 let cloudSyncReady = false;
 let cloudSaveTimer = null;
 let currentCloudUid = null;
+let unsubscribeCloudSnapshot = null;
 
 
 // Save data to Firestore
@@ -175,6 +177,11 @@ window.addEventListener("workhours-auth-changed", async function (event) {
     cloudSyncReady = false;
     currentCloudUid = null;
 
+    if (unsubscribeCloudSnapshot) {
+        unsubscribeCloudSnapshot();
+        unsubscribeCloudSnapshot = null;
+    }
+
     if (!user) {
         return;
     }
@@ -216,9 +223,69 @@ window.addEventListener("workhours-auth-changed", async function (event) {
             console.log("Initial WorkHours data uploaded.");
         }
 
-        if (currentCloudUid === user.uid) {
-            cloudSyncReady = true;
+        if (currentCloudUid !== user.uid) {
+            return;
         }
+
+        cloudSyncReady = true;
+
+        unsubscribeCloudSnapshot = onSnapshot(
+            userDoc,
+            function (snapshot) {
+                if (
+                    currentCloudUid !== user.uid ||
+                    !snapshot.exists()
+                ) {
+                    return;
+                }
+
+                const cloudData = snapshot.data();
+
+                if (
+                    !Array.isArray(cloudData.profiles) ||
+                    !Array.isArray(cloudData.shifts)
+                ) {
+                    console.error("Invalid cloud data received.");
+                    return;
+                }
+
+                const localData = window.getWorkHoursData();
+
+                const localVersion = JSON.stringify({
+                    activeProfileId: localData.activeProfileId,
+                    profiles: localData.profiles,
+                    shifts: localData.shifts
+                });
+
+                const cloudVersion = JSON.stringify({
+                    activeProfileId: cloudData.activeProfileId || "",
+                    profiles: cloudData.profiles,
+                    shifts: cloudData.shifts
+                });
+
+                if (localVersion === cloudVersion) {
+                    return;
+                }
+
+                console.log("New cloud data received.");
+
+                cloudSyncReady = false;
+
+                window.applyWorkHoursCloudData(cloudData);
+
+                cloudSyncReady = true;
+
+                console.log("WorkHours updated from the cloud.");
+            },
+            function (error) {
+                console.error(
+                    "Cloud listener error:",
+                    error
+                );
+            }
+        );
+
+        console.log("WorkHours real-time sync is active.");
 
     } catch (error) {
         cloudSyncReady = false;
